@@ -66,8 +66,12 @@ __*JSON input*__
         "alignment": "center",
         "onMouseUp": "sun1.opacity = (sun1.opacity / 100) * 90;"
     }
-}}  
+}} 
+ 
 ```
+Command line input example:
+>jstruct -file testData.json -out new.go -name test
+
 __*Golang Strut output*__
 ```golang
 package test 
