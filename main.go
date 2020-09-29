@@ -161,6 +161,6 @@ func NamingConvention(nameRaw string) string {
 	if _, err := strconv.Atoi(string(newKey[0])); err == nil { //Does not start with number
 		newKey = "N" + newKey
 	}
-	//newKey = regexp.MustCompile(`[\[\]\-_\\/!"£"$%^&()*+=\:;'#<>?,.|]`).ReplaceAllString(newKey, "") //remove remaining non alphanumeric charecters
+	newKey = regexp.MustCompile(`[\[\]\-_\\/!"£"$%^&()*+=\:;'#<>?,.|]`).ReplaceAllString(newKey, "") //remove remaining non alphanumeric charecters
 	return newKey
 }
