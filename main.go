@@ -164,7 +164,7 @@ func NamingConvention(nameRaw string) string {
 	c := regexp.MustCompile(`[-_](\w?)`)
 	newKey := c.ReplaceAllStringFunc(nameRaw, func(s string) string { return strings.ToUpper(s[len(s)-1:]) }) //CamelCase
 	newKey = strings.ToUpper(newKey[:1]) + newKey[1:]                                                         //Capitalise
-	if strings.Contains(newKey[len(newKey)-2:], "id") {                                                       //id to ID
+	if strings.Contains(newKey[len(newKey)-2:], "id") || strings.Contains(newKey[len(newKey)-2:], "Id") {     //id or Id to ID
 		newKey = newKey[:len(newKey)-2] + "ID"
 	}
 	newKey = strings.ReplaceAll(newKey, "url", "URL")          //url to URL
