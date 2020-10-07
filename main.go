@@ -121,12 +121,22 @@ func PrintStruct(f *os.File, m map[string]interface{}, structName string) map[st
 			fmt.Fprintf(f, "\t%s %s `json:\"%s,omitempty\"`\n", newKey, structName+newKey, key)
 
 		case []map[string]interface{}:
+			//check if the array can be type asserted. If not, write as []map[string]interface{}
+			if len(v) == 0 {
+				fmt.Fprintf(f, "\t%s []map[string]interface{} `json:\"%s,omitempty\"`\n", newKey, key)
+				break
+			}
 			//add to collection to form own structs in output
 			collection[structName+newKey] = v[0]
 			//add field with type of to be created struct here
 			fmt.Fprintf(f, "\t%s []%s `json:\"%s,omitempty\"`\n", newKey, structName+newKey, key)
 
 		case []interface{}:
+			//check if the array can be type asserted. If not, write as []interface{}
+			if len(v) == 0 {
+				fmt.Fprintf(f, "\t%s []interface{} `json:\"%s,omitempty\"`\n", newKey, key)
+				break
+			}
 			switch sv := v[0].(type) {
 			case map[string]interface{}:
 				//add to collection to form own structs in output
