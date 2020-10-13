@@ -106,8 +106,11 @@ func PrintStruct(f *os.File, m map[string]interface{}, structName string) map[st
 	//Proper naming convention imposing
 	structName = NamingConvention(structName)
 
+	//Add export comment to struct
+	fmt.Fprintf(f, " \n\n//%s {{ToDo: Input description of what struct is here}}\n", structName)
+
 	//Open struct
-	fmt.Fprintf(f, " \n\ntype %s struct {\n", structName)
+	fmt.Fprintf(f, " type %s struct {\n", structName)
 
 	//Print main body to file
 	for key, value := range m {
@@ -118,7 +121,7 @@ func PrintStruct(f *os.File, m map[string]interface{}, structName string) map[st
 			//add to collection to form own structs in output
 			collection[structName+newKey] = v
 			//add field with type of to be created struct here
-			fmt.Fprintf(f, "\t%s %s `json:\"%s,omitempty\"`\n", newKey, structName+newKey, key)
+			fmt.Fprintf(f, "\t%s *%s `json:\"%s,omitempty\"`\n", newKey, structName+newKey, key)
 
 		case []map[string]interface{}:
 			//check if the array can be type asserted. If not, write as []map[string]interface{}
@@ -168,6 +171,7 @@ func NamingConvention(nameRaw string) string {
 		newKey = newKey[:len(newKey)-2] + "ID"
 	}
 	newKey = strings.ReplaceAll(newKey, "url", "URL")          //url to URL
+	newKey = strings.ReplaceAll(newKey, "Url", "URL")          //url to URL
 	if _, err := strconv.Atoi(string(newKey[0])); err == nil { //Does not start with number
 		newKey = "N" + newKey
 	}
